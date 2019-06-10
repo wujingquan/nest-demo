@@ -8,12 +8,14 @@ import {
   Res,
   HttpStatus,
   HttpException,
+  Body,
 } from '@nestjs/common';
 import { User } from './interfaces/user.interface';
 import { UsersService } from './users.service';
 import { ApiException } from '../common/exceptions/api.exception';
 import { ApiErrorCode } from '../common/enums/api-error-code.enum';
 import { UserIdPipe } from './pipes/user-id.pipe';
+import { CreateUserDto } from './dtos/create-user.dto';
 
 @Controller('users')
 export class UsersController {
@@ -26,21 +28,21 @@ export class UsersController {
 
   @Get(':id')
   async findOne(@Param('id', new UserIdPipe()) id): Promise<User> {
-    return await this.usersService.findOne(id)
+    return await this.usersService.findOne(id);
   }
 
   @Post()
-  async create() {
-    return await this.usersService.create();
+  async create(@Body() user: CreateUserDto): Promise<User> {
+    return await this.usersService.create(user);
   }
 
   @Put()
-  async edit() {
-    return await this.usersService.edit();
+  async edit(@Body() user: CreateUserDto): Promise<User> {
+    return await this.usersService.edit(user);
   }
 
-  @Delete()
-  async remove() {
-    return await this.usersService.remove();
+  @Delete(':id')
+  async remove(@Param('id', new UserIdPipe()) id): Promise<boolean> {
+    return await this.usersService.remove(id);
   }
 }
