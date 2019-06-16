@@ -38,7 +38,7 @@ export class ApiParamsValidationPipe implements PipeTransform {
       }
     }
 
-    return value;
+    return object;
   }
 
   private toValidate(metatype): boolean {
